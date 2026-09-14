@@ -1,0 +1,24 @@
+# THE PLUG TVET - robots.txt
+# Allow every crawler full access; the whole site is public, static and free.
+
+User-agent: *
+Allow: /
+
+# Explicitly welcome the major crawlers (no crawl-delay needed on a static host).
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# The report PDFs are public documents - indexable on purpose.
+User-agent: *
+Allow: /reports/
+
+Sitemap: https://theplugtvet.github.io/Plug_TVET_Website/sitemap.xml

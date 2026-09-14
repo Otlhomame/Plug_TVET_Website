@@ -1,0 +1,91 @@
+# ===========================================================================
+# THE PLUG TVET - GitHub Pages CI/CD pipeline
+# ---------------------------------------------------------------------------
+# Trigger: every push to `main` (text edits, new PDF reports, new blog posts)
+# or a manual run from the Actions tab.
+#
+# What it does:
+#   1. Checks out the repo and installs Node 20 with npm caching.
+#   2. Runs `npm ci` (reproducible install from package-lock.json).
+#   3. Runs `next build` which emits the flat static site into `/out`
+#      (because `output: 'export'` is set in next.config.js).
+#   4. Uploads `/out` as a Pages artifact and publishes it live.
+#
+# ONE-TIME SETUP: Repo -> Settings -> Pages -> Build and deployment ->
+# Source = "GitHub Actions". That is all that is required.
+# ===========================================================================
+
+name: Deploy THE PLUG TVET to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Allow manual deployments from the Actions tab.
+  workflow_dispatch:
+
+# Permissions required by actions/deploy-pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deployments at the same time; queue instead and cancel
+# any in-progress run that is superseded by a newer commit.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build static export
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      # ----------------------------------------------------------------
+      # Project sites are served from /<repo>, user sites & custom domains
+      # from the root. `actions/configure-pages` exposes the resolved
+      # `base_path` output which we feed into Next.js.
+      # ----------------------------------------------------------------
+      - name: Build Next.js static export
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.origin }}
+          NODE_ENV: production
+        run: npm run build
+
+      # GitHub Pages runs Jekyll by default, which ignores folders that start
+      # with an underscore (like `/_next`). The .nojekyll marker disables it.
+      - name: Add .nojekyll marker
+        run: touch out/.nojekyll
+
+      - name: Upload static site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy artifact to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

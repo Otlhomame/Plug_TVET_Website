@@ -1,0 +1,36 @@
+{
+  "name": "the-plug-tvet-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "THE PLUG TVET - Botswana's TVET information hub & boutique consultancy. Static-exported Next.js + Tailwind website.",
+  "author": "THE PLUG TVET",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.12.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "preview": "npx --yes serve@14 out -l 4000",
+    "reports:scaffold": "node scripts/generate-placeholder-reports.mjs",
+    "verify:export": "node scripts/verify-export.mjs",
+    "verify:content": "node scripts/spot-check.mjs",
+    "verify": "npm run build && npm run verify:export && npm run verify:content"
+  },
+  "dependencies": {
+    "framer-motion": "11.3.30",
+    "next": "13.5.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.20",
+    "eslint": "8.57.0",
+    "eslint-config-next": "13.5.6",
+    "postcss": "8.4.41",
+    "tailwindcss": "3.4.10"
+  }
+}

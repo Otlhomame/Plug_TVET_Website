@@ -1,0 +1,261 @@
+/* ===========================================================================
+   THE PLUG TVET - global stylesheet
+   ---------------------------------------------------------------------------
+   Sections:
+     1. Tailwind layers
+     2. Base / reset + fluid dark-mode defaults
+     3. Custom scrollbar tracks (webkit + firefox + selection)
+     4. Reusable component classes (glassmorphism, buttons, cards, grid bg)
+     5. Long-form article typography (TVET News posts)
+     6. Accessibility & motion preferences
+   =========================================================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   2. BASE
+--------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --plug-track: #0a1122;
+    --plug-thumb: linear-gradient(180deg, #22d3ee 0%, #2dd4bf 100%);
+    --plug-thumb-flat: #22d3ee;
+    color-scheme: dark;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor jumps so the sticky header never covers a heading. */
+    scroll-padding-top: 6.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-slate-950 text-offwhite font-sans antialiased;
+    /* Ambient brand glow behind the entire app - mimics watchfire.io depth. */
+    background-image:
+      radial-gradient(75rem 45rem at 15% -10%, rgba(34, 211, 238, 0.11), transparent 60%),
+      radial-gradient(60rem 40rem at 95% 10%, rgba(20, 184, 166, 0.09), transparent 60%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-sans tracking-tighter text-offwhite;
+  }
+
+  /* Crisp focus ring on every interactive element (keyboard accessibility). */
+  :focus-visible {
+    @apply outline-none ring-2 ring-cyan-400 ring-offset-2 ring-offset-slate-950;
+  }
+
+  ::selection {
+    background-color: rgba(34, 211, 238, 0.28);
+    color: #f5f8fc;
+  }
+
+  hr {
+    @apply border-slate-700/60;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   3. CUSTOM SCROLLBAR TRACKS
+--------------------------------------------------------------------------- */
+@layer base {
+  /* WebKit / Blink (Chrome, Edge, Safari) */
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--plug-track);
+    border-left: 1px solid rgba(148, 178, 215, 0.08);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #22d3ee 0%, #14b8a6 100%);
+    border: 3px solid var(--plug-track);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #67e8f9 0%, #2dd4bf 100%);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: var(--plug-track);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--plug-thumb-flat) var(--plug-track);
+  }
+
+  /* Horizontal filter rails on mobile: hide the bar, keep the scroll. */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   4. COMPONENT CLASSES
+--------------------------------------------------------------------------- */
+@layer components {
+  /* ---- Layout helpers ------------------------------------------------- */
+  .container-plug {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .section-y {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  /* ---- Glassmorphism surfaces ---------------------------------------- */
+  .glass {
+    @apply rounded-3xl border border-slate-600/40 bg-slate-900/55 shadow-glass backdrop-blur-xl;
+  }
+
+  .glass-strong {
+    @apply rounded-3xl border border-slate-500/40 bg-slate-850/80 shadow-glass backdrop-blur-2xl;
+  }
+
+  .glass-hover {
+    @apply transition-all duration-300 ease-premium hover:-translate-y-1 hover:border-cyan-400/50 hover:shadow-glow-cyan;
+  }
+
+  /* ---- Typography accents -------------------------------------------- */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-300;
+  }
+
+  .text-gradient {
+    @apply bg-brand-sheen bg-clip-text text-transparent;
+  }
+
+  .lede {
+    @apply text-base leading-relaxed text-slate-200 sm:text-lg;
+  }
+
+  /* ---- Buttons ------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold tracking-tight transition-all duration-300 ease-premium;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-sheen px-6 py-3 text-slate-950 shadow-glow-cyan hover:-translate-y-0.5 hover:shadow-[0_22px_60px_-18px_rgba(34,211,238,0.7)] active:translate-y-0;
+  }
+
+  .btn-ghost {
+    @apply btn border border-slate-500/60 bg-slate-900/50 px-6 py-3 text-offwhite backdrop-blur hover:-translate-y-0.5 hover:border-cyan-400/60 hover:text-cyan-200;
+  }
+
+  .btn-quiet {
+    @apply btn px-3 py-2 text-slate-200 hover:text-cyan-300;
+  }
+
+  /* ---- Chips / tags -------------------------------------------------- */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-slate-600/50 bg-slate-900/60 px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-slate-200;
+  }
+
+  .chip-cyan {
+    @apply chip border-cyan-400/40 bg-cyan-400/10 text-cyan-200;
+  }
+
+  /* ---- Decorative backgrounds --------------------------------------- */
+  .grid-bg {
+    @apply bg-grid-dark bg-grid;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-slate-500/50 to-transparent;
+  }
+
+  /* Image-free "cover art" for blog + report cards (pure CSS gradients). */
+  .cover-art {
+    @apply relative overflow-hidden bg-slate-900;
+    background-image:
+      radial-gradient(120% 120% at 0% 0%, rgba(34, 211, 238, 0.35), transparent 55%),
+      radial-gradient(120% 120% at 100% 100%, rgba(20, 184, 166, 0.4), transparent 55%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   5. LONG-FORM ARTICLE TYPOGRAPHY
+--------------------------------------------------------------------------- */
+@layer components {
+  .article-body {
+    @apply text-[1.0625rem] leading-[1.85] text-slate-200;
+  }
+  .article-body > * + * {
+    @apply mt-6;
+  }
+  .article-body h2 {
+    @apply mt-14 text-2xl font-semibold tracking-tighter text-offwhite sm:text-3xl;
+  }
+  .article-body h3 {
+    @apply mt-10 text-xl font-semibold tracking-tight text-cyan-200;
+  }
+  .article-body a {
+    @apply font-medium text-cyan-300 underline decoration-cyan-400/40 underline-offset-4 transition hover:decoration-cyan-300;
+  }
+  .article-body ul {
+    @apply space-y-3 pl-0;
+  }
+  .article-body li {
+    @apply relative list-none pl-7;
+  }
+  .article-body li::before {
+    content: '';
+    @apply absolute left-0 top-[0.6rem] h-1.5 w-1.5 rounded-full bg-cyan-400;
+  }
+  .article-body blockquote {
+    @apply rounded-2xl border-l-2 border-cyan-400/70 bg-slate-900/60 px-6 py-5 text-lg font-medium italic text-offwhite;
+  }
+  .article-body strong {
+    @apply font-semibold text-offwhite;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   6. ACCESSIBILITY & MOTION
+--------------------------------------------------------------------------- */
+@layer utilities {
+  .sr-only-focusable:not(:focus) {
+    @apply sr-only;
+  }
+
+  /* Deep-link targets clear the sticky header. */
+  .anchor-offset {
+    scroll-margin-top: 7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

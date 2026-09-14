@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  THE PLUG TVET - static sitemap.
+  Hand-maintained because `output: 'export'` produces a flat site, which keeps
+  this file completely deterministic and dependency-free.
+
+  WHEN YOU ADD A NEWS POST: add one <url> block for /news/<slug>/
+  UPDATE THE DOMAIN: replace the host in every <loc> if you move to a custom
+  domain (also update NEXT_PUBLIC_SITE_URL in the GitHub Actions workflow).
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/about/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/services/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/insights/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/contact/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- TVET News posts -->
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/botswana-tvet-enrolment-window-what-changes-this-cycle/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/levy-funded-training-claims-employers-leave-money-behind/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/scarce-skills-where-botswana-demand-outruns-training-capacity/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/graduate-attachments-that-convert-into-jobs/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/green-skills-energy-transition-botswana-trades/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/choosing-a-tvet-course-without-regret/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
