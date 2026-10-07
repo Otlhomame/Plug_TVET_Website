@@ -40,7 +40,7 @@ export const stats = [
   {
     id: 'reports',
     value: `${reportMetrics.total}`,
-    label: 'Downloadable reports',
+    label: reportMetrics.total === 1 ? 'Downloadable report' : 'Downloadable reports',
     detail: 'Free PDF insight briefs written for decision-makers and students alike.',
     accent: 'teal',
     icon: 'download',
@@ -164,28 +164,37 @@ export const strategicGoals = [
   },
 ];
 
-/** Milestones timeline for the About page. */
+/**
+ * Milestones timeline for the About page.
+ * ---------------------------------------------------------------------------
+ * The channel went live in October 2025 (`siteConfig.founded`), so the timeline
+ * starts there and follows the real publication record in `src/data/reports.js`:
+ * the first free brief shipped in that same month, and all five research
+ * dimensions had been covered before the end of 2025.
+ *
+ * `year` is also the React key on /about, so every label must stay unique.
+ */
 export const milestones = [
   {
-    year: '2023',
+    year: 'Oct 2025',
     title: 'THE PLUG TVET goes live',
     detail:
-      'A Francistown-born social channel starts summarising TVET admissions news for applicants who had nobody to ask.',
+      'A Francistown-born social channel starts summarising TVET admissions news for applicants who had nobody to ask - and publishes its first free insight brief in the same month.',
   },
   {
-    year: '2024',
-    title: 'The community scales',
+    year: 'Dec 2025',
+    title: 'All five dimensions covered',
     detail:
-      'Facebook traction passes 62,000 followers and TikTok crosses 6,000 - driven almost entirely by word of mouth and shared posts.',
-  },
-  {
-    year: '2025',
-    title: 'From posts to publications',
-    detail:
-      'The insight library expands into five research dimensions with free downloadable PDF briefs for stakeholders and employers.',
+      'Within one quarter the insight library spans the full research scope: policy and funding, approved capital projects, scarce skills, institutional case studies and ESG.',
   },
   {
     year: '2026',
+    title: 'The community scales',
+    detail:
+      'Facebook traction passes 62,000 followers and TikTok crosses 6,000 - driven almost entirely by word of mouth and shared posts - while rapid-read TVET News joins the library.',
+  },
+  {
+    year: '2026 - now',
     title: 'A boutique consultancy',
     detail:
       'Structured advisory for institutions and industry: labour-market research, curriculum relevance reviews and placement design.',

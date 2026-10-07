@@ -10,7 +10,6 @@
  * Structure
  *   1. Dimension selector : five glass tiles; choosing one filters the grid
  *   2. Repository         : search rail + filter rail + animated result grid
- *   3. Publishing note    : reminds the team how a PDF is published via Git
  *
  * All filtering happens in the browser so the exported site stays 100% static -
  * no API calls, no database, and nothing that breaks on GitHub Pages.
@@ -275,8 +274,9 @@ export default function InsightsRepository({ reports = [], dimensions = [] }) {
               No reports match that search
             </h3>
             <p className="max-w-md text-sm text-slate-300">
-              Try a broader term, or clear the filters to see all {reports.length} downloadable
-              reports across the five industrial dimensions.
+              Try a broader term, or clear the filters to see all {reports.length} downloadable{' '}
+              {reports.length === 1 ? 'report' : 'reports'} across the five industrial
+              dimensions.
             </p>
             <button
               type="button"
@@ -291,16 +291,6 @@ export default function InsightsRepository({ reports = [], dimensions = [] }) {
             </button>
           </div>
         )}
-
-        {/* ---- Publishing note ------------------------------------------ */}
-        <p className="mt-8 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-          <Icon name="fileText" className="h-3.5 w-3.5 text-cyan-400" />
-          Reports are served from
-          <code className="rounded bg-slate-900/70 px-2 py-0.5 font-mono text-[11px] text-cyan-200">
-            /public/reports/*.pdf
-          </code>
-          - drop a new PDF in that folder, commit, and it publishes automatically.
-        </p>
       </div>
     </div>
   );

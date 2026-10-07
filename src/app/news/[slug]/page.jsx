@@ -29,7 +29,7 @@ import DeeperAnalysis from '@/components/DeeperAnalysis';
 import NewsCard from '@/components/NewsCard';
 import Reveal from '@/components/Reveal';
 
-import { siteConfig } from '@/data/site';
+import { asset, siteConfig } from '@/data/site';
 import { COVER_GRADIENTS, getAdjacentPost, getPostBySlug, newsPosts } from '@/data/news';
 import { articleSchema, breadcrumbSchema } from '@/lib/seo';
 
@@ -86,6 +86,11 @@ export default function NewsPostPage({ params }) {
   const related = newsPosts
     .filter((item) => item.slug !== post.slug)
     .sort((a, b) => (a.category === post.category ? -1 : 1))
+    .slice(0, 2);
+
+  // "Read next" rail - empty (and therefore hidden) while this is the only brief.
+  const readNext = [nextPost, ...related.filter((item) => item?.slug !== nextPost?.slug)]
+    .filter(Boolean)
     .slice(0, 2);
 
   return (
@@ -153,11 +158,27 @@ export default function NewsPostPage({ params }) {
               <div
                 className={`cover-art relative mt-9 h-44 overflow-hidden rounded-3xl border border-slate-600/40 bg-gradient-to-br sm:h-60 ${gradient}`}
               >
-                <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-40" />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -bottom-16 -right-10 h-56 w-56 rounded-full bg-cyan-400/20 blur-3xl"
-                />
+                {post.coverImage ? (
+                  <>
+                    <img
+                      src={asset(post.coverImage)}
+                      alt={post.coverAlt || post.title}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/25 to-transparent"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-40" />
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -bottom-16 -right-10 h-56 w-56 rounded-full bg-cyan-400/20 blur-3xl"
+                    />
+                  </>
+                )}
                 <span className="chip-cyan absolute bottom-5 left-6">
                   Rapid-read brief · {post.readMinutes} minutes
                 </span>
@@ -275,7 +296,6 @@ export default function NewsPostPage({ params }) {
                     {[
                       { key: 'facebook', href: siteConfig.socials.facebook, label: 'Facebook' },
                       { key: 'tiktok', href: siteConfig.socials.tiktok, label: 'TikTok' },
-                      { key: 'instagram', href: siteConfig.socials.instagram, label: 'Instagram' },
                     ].map((social) => (
                       <a
                         key={social.key}
@@ -294,26 +314,25 @@ export default function NewsPostPage({ params }) {
             </aside>
           </div>
 
-          {/* ---- 8. Read next ----------------------------------------------- */}
-          <section className="mt-20" aria-labelledby="read-next-heading">
-            <h2
-              id="read-next-heading"
-              className="text-2xl font-semibold tracking-tighter text-offwhite"
-            >
-              Read next
-            </h2>
+          {/* ---- 8. Read next (hidden while this is the only brief) ---------- */}
+          {readNext.length > 0 && (
+            <section className="mt-20" aria-labelledby="read-next-heading">
+              <h2
+                id="read-next-heading"
+                className="text-2xl font-semibold tracking-tighter text-offwhite"
+              >
+                Read next
+              </h2>
 
-            <div className="mt-8 grid gap-5 lg:grid-cols-2">
-              {[nextPost, ...related.filter((item) => item?.slug !== nextPost?.slug)]
-                .filter(Boolean)
-                .slice(0, 2)
-                .map((item, index) => (
+              <div className="mt-8 grid gap-5 lg:grid-cols-2">
+                {readNext.map((item, index) => (
                   <Reveal key={item.id} delay={index * 0.08} variant="scaleIn">
                     <NewsCard post={item} />
                   </Reveal>
                 ))}
-            </div>
-          </section>
+              </div>
+            </section>
+          )}
         </div>
       </article>
 

@@ -77,13 +77,13 @@ checkHtml('insights (out/insights/index.html)', read('insights/index.html'), [
   // Dimension-selector tiles rendered by <InsightsRepository /> (section 1).
   'Who pays, how much, and what does the country get back?',
   'Which projects are real, and which trades will they absorb?',
-  '20 reports available for free',
+  '1 report available for free',
   // Repository grid + download hooks (section 2).
   'insight-grid',
   'Download PDF',
   'Search titles, tags, audiences...',
-  'Reports are served from',
-  '/reports/tvet-funding-flows-botswana-2026.pdf',
+  '/reports/temco-p2-billion-hospital-project.pdf',
+  'TEMCO',
 ]);
 
 checkHtml('news (out/news/index.html)', read('news/index.html'), [

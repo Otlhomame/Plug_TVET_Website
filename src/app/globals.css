@@ -20,8 +20,9 @@
 @layer base {
   :root {
     --plug-track: #0a1122;
-    --plug-thumb: linear-gradient(180deg, #22d3ee 0%, #2dd4bf 100%);
-    --plug-thumb-flat: #22d3ee;
+    /* Scrollbar thumb = Plug Blue, matching the blue half of the logo. */
+    --plug-thumb: linear-gradient(180deg, #3b9bff 0%, #1c7bee 100%);
+    --plug-thumb-flat: #3b9bff;
     color-scheme: dark;
   }
 
@@ -38,10 +39,10 @@
 
   body {
     @apply bg-slate-950 text-offwhite font-sans antialiased;
-    /* Ambient brand glow behind the entire app - mimics watchfire.io depth. */
+    /* Ambient brand glow behind the entire app - Plug Blue + Plug Chrome. */
     background-image:
-      radial-gradient(75rem 45rem at 15% -10%, rgba(34, 211, 238, 0.11), transparent 60%),
-      radial-gradient(60rem 40rem at 95% 10%, rgba(20, 184, 166, 0.09), transparent 60%);
+      radial-gradient(75rem 45rem at 15% -10%, rgba(28, 123, 238, 0.15), transparent 60%),
+      radial-gradient(60rem 40rem at 95% 10%, rgba(127, 166, 212, 0.10), transparent 60%);
     background-attachment: fixed;
     background-repeat: no-repeat;
     text-rendering: optimizeLegibility;
@@ -57,11 +58,11 @@
 
   /* Crisp focus ring on every interactive element (keyboard accessibility). */
   :focus-visible {
-    @apply outline-none ring-2 ring-cyan-400 ring-offset-2 ring-offset-slate-950;
+    @apply outline-none ring-2 ring-brand-400 ring-offset-2 ring-offset-slate-950;
   }
 
   ::selection {
-    background-color: rgba(34, 211, 238, 0.28);
+    background-color: rgba(59, 155, 255, 0.30);
     color: #f5f8fc;
   }
 
@@ -86,13 +87,13 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #22d3ee 0%, #14b8a6 100%);
+    background: linear-gradient(180deg, #3b9bff 0%, #1c7bee 100%);
     border: 3px solid var(--plug-track);
     border-radius: 999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #67e8f9 0%, #2dd4bf 100%);
+    background: linear-gradient(180deg, #82bdff 0%, #1cc0ff 100%);
   }
 
   ::-webkit-scrollbar-corner {
@@ -138,12 +139,12 @@
   }
 
   .glass-hover {
-    @apply transition-all duration-300 ease-premium hover:-translate-y-1 hover:border-cyan-400/50 hover:shadow-glow-cyan;
+    @apply transition-all duration-300 ease-premium hover:-translate-y-1 hover:border-brand-400/50 hover:shadow-glow-brand;
   }
 
   /* ---- Typography accents -------------------------------------------- */
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-300;
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-brand-300;
   }
 
   .text-gradient {
@@ -160,15 +161,15 @@
   }
 
   .btn-primary {
-    @apply btn bg-brand-sheen px-6 py-3 text-slate-950 shadow-glow-cyan hover:-translate-y-0.5 hover:shadow-[0_22px_60px_-18px_rgba(34,211,238,0.7)] active:translate-y-0;
+    @apply btn bg-brand-sheen px-6 py-3 text-slate-950 shadow-glow-brand hover:-translate-y-0.5 hover:shadow-[0_22px_60px_-18px_rgba(59,155,255,0.7)] active:translate-y-0;
   }
 
   .btn-ghost {
-    @apply btn border border-slate-500/60 bg-slate-900/50 px-6 py-3 text-offwhite backdrop-blur hover:-translate-y-0.5 hover:border-cyan-400/60 hover:text-cyan-200;
+    @apply btn border border-slate-500/60 bg-slate-900/50 px-6 py-3 text-offwhite backdrop-blur hover:-translate-y-0.5 hover:border-brand-400/60 hover:text-brand-200;
   }
 
   .btn-quiet {
-    @apply btn px-3 py-2 text-slate-200 hover:text-cyan-300;
+    @apply btn px-3 py-2 text-slate-200 hover:text-brand-300;
   }
 
   /* ---- Chips / tags -------------------------------------------------- */
@@ -176,8 +177,9 @@
     @apply inline-flex items-center gap-1.5 rounded-full border border-slate-600/50 bg-slate-900/60 px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-slate-200;
   }
 
+  /* Legacy class name (used across the pages); now paints Plug Blue. */
   .chip-cyan {
-    @apply chip border-cyan-400/40 bg-cyan-400/10 text-cyan-200;
+    @apply chip border-brand-400/40 bg-brand-400/10 text-brand-200;
   }
 
   /* ---- Decorative backgrounds --------------------------------------- */
@@ -193,8 +195,8 @@
   .cover-art {
     @apply relative overflow-hidden bg-slate-900;
     background-image:
-      radial-gradient(120% 120% at 0% 0%, rgba(34, 211, 238, 0.35), transparent 55%),
-      radial-gradient(120% 120% at 100% 100%, rgba(20, 184, 166, 0.4), transparent 55%);
+      radial-gradient(120% 120% at 0% 0%, rgba(28, 123, 238, 0.45), transparent 55%),
+      radial-gradient(120% 120% at 100% 100%, rgba(127, 166, 212, 0.40), transparent 55%);
   }
 }
 
@@ -212,10 +214,10 @@
     @apply mt-14 text-2xl font-semibold tracking-tighter text-offwhite sm:text-3xl;
   }
   .article-body h3 {
-    @apply mt-10 text-xl font-semibold tracking-tight text-cyan-200;
+    @apply mt-10 text-xl font-semibold tracking-tight text-brand-200;
   }
   .article-body a {
-    @apply font-medium text-cyan-300 underline decoration-cyan-400/40 underline-offset-4 transition hover:decoration-cyan-300;
+    @apply font-medium text-brand-300 underline decoration-brand-400/40 underline-offset-4 transition hover:decoration-brand-300;
   }
   .article-body ul {
     @apply space-y-3 pl-0;
@@ -225,10 +227,10 @@
   }
   .article-body li::before {
     content: '';
-    @apply absolute left-0 top-[0.6rem] h-1.5 w-1.5 rounded-full bg-cyan-400;
+    @apply absolute left-0 top-[0.6rem] h-1.5 w-1.5 rounded-full bg-brand-400;
   }
   .article-body blockquote {
-    @apply rounded-2xl border-l-2 border-cyan-400/70 bg-slate-900/60 px-6 py-5 text-lg font-medium italic text-offwhite;
+    @apply rounded-2xl border-l-2 border-brand-400/70 bg-slate-900/60 px-6 py-5 text-lg font-medium italic text-offwhite;
   }
   .article-body strong {
     @apply font-semibold text-offwhite;

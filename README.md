@@ -17,11 +17,11 @@ static host.
 | --- | --- |
 | **Home** | watchfire-style premium hero, live traction marquee, dynamic bento stats grid (62K+ Facebook, 6K+ TikTok), Inform/Guide/Connect pillars, offerings preview, featured reports, rapid-read news, Substack CTA panel, contact band |
 | **About** | Mission (*Empowering Skills. Building Futures.*), ecosystem-gap analysis, milestone timeline, strategic goals, operating principles |
-| **Services** | Interactive 4-column bento grid (Courses & Career Guidance, Applications & Opportunities, Skills & Training Information, Student & Graduate Stories), boutique consultancy mandates, 4-step engagement model, six audience segments |
+| **Services** | Interactive 4-column bento grid (Courses & Career Guidance, Applications & Opportunities, Skills & Training Information, Student & Graduate Stories) with all four panels expanded by default and collapse-on-tap, boutique consultancy mandates, 4-step engagement model, six audience segments |
 | **Industry Insights** | Dedicated repository page with **layout filtering across the five industrial dimensions**, free-text search, featured shelf, downloadable PDFs from `/public/reports/` |
 | **TVET News** | Polished blog grid of 4–5 minute rapid reads with category filtering, per-post article pages, table of contents, NewsArticle + Breadcrumb JSON-LD |
 | **Contact** | Validated enquiry form (name, email, query type: Student / Employer / Stakeholder), office details, response promise, FAQ |
-| **Design** | Fluid dark mode by default, deep slate blue + high-vis cyan/teal + crisp off-white, glassmorphism, custom scrollbar tracks, mobile-first responsive |
+| **Design** | Fluid dark mode by default, deep slate blue + Plug Blue / Plug Chrome accents sampled from the logo + crisp off-white, glassmorphism, custom scrollbar tracks, mobile-first responsive |
 | **Motion** | Framer Motion scroll-driven entrances, page-transition fades, hover scales on report download buttons, animated filters |
 | **SEO** | Metadata templates, canonical URLs, OpenGraph/Twitter cards, `robots.txt`, static `sitemap.xml`, EducationalOrganization/WebSite/NewsArticle/BreadcrumbList structured data |
 | **CI/CD** | `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on every push |
@@ -60,7 +60,9 @@ npm run preview        # serves ./out on :4000 to verify the real export
 ├── next.config.js                    # output: 'export' + basePath handling
 ├── tailwind.config.js                # brand palette, fonts, animations
 ├── scripts/
-│   └── generate-placeholder-reports.mjs   # scaffolds every declared report PDF
+│   ├── generate-placeholder-reports.mjs   # scaffolds every declared report PDF
+│   ├── verify-export.mjs                  # inspects ./out after a build
+│   └── spot-check.mjs                     # asserts production copy in ./out
 ├── public/
 │   ├── .nojekyll                     # tells GitHub Pages to skip Jekyll
 │   ├── favicon.svg / logo.svg        # brand marks
@@ -92,7 +94,7 @@ Everything editorial is data-driven:
 
 | File | Controls |
 | --- | --- |
-| `src/data/site.js` | Brand name, tagline, **contact details**, socials, **Substack URL**, navigation |
+| `src/data/site.js` | Brand name, tagline, founding date (`founded` + machine-readable `foundedISO`), **contact details**, socials, **Substack URL**, navigation |
 | `src/data/stats.js` | Traction metrics, the three pillars, ecosystem challenges, goals, milestones |
 | `src/data/services.js` | The four offerings, engagement steps, consultancy mandates |
 | `src/data/reports.js` | The five industrial dimensions + every downloadable report |
@@ -176,6 +178,9 @@ NEXT_PUBLIC_BASE_PATH=
   never drifts when you add or remove a PDF.
 - **`npm run reports:scaffold` never overwrites** an existing PDF unless you pass
   `-- --force`, so uploading the real document over a placeholder is safe.
+- **Verify a build** with `npm run verify` (build + `verify-export.mjs` +
+  `spot-check.mjs`). They assert every page, PDF and runtime asset is present in
+  `out/` and that the production copy still renders.
 - **Adding a new page** means: create `src/app/<route>/page.jsx`, export
   `metadata`, and add the route to `src/data/site.js` (`navLinks`) plus
   `public/sitemap.xml`.
@@ -190,6 +195,29 @@ NEXT_PUBLIC_BASE_PATH=
 - **Framer Motion 11** for scroll-driven motion
 - **Inter** + **JetBrains Mono** via `next/font` (self-hosted, no layout shift)
 - **Zero runtime UI dependencies** — all icons are inline SVG components
+
+### Brand palette
+
+The accent pair is sampled straight from the brand mark, so the site chrome and
+the artwork share one visual language.
+
+| Token | Role | Where it comes from in the logo |
+| --- | --- | --- |
+| `brand` — **Plug Blue** | Primary actions, active states, data, focus rings | blue band of the badge. `brand-500` is the mark's own `#1C7BEE` mid stop; the sheen reuses the mark's `#1CC0FF` (favicon) / `#2E86F5` (logo text gradient) |
+| `steel` — **Plug Chrome** | Secondary accent, data viz | silver half + chrome frame. Derived from the mark's silver `#9AA7B4` and frame greys `#C7CBCD`–`#F6F7F7` (`steel-200` → `steel-700`) |
+| `slate` | Surfaces, borders, muted text | deep slate blue (`#050912` plate of the mark) |
+| `offwhite` / `ink` | Typography, page base | crisp off-white, near-black |
+
+The mark also carries a warm amber highlight (`#FFC876`) along the band seam.
+It is deliberately **not** wired into the UI: keeping the accent pair to blue +
+chrome means one visual language, and a third hue would compete with the artwork.
+
+`cyan` and `teal` are kept as **legacy aliases** bound by reference to
+`brand` / `steel` in `tailwind.config.js`, so older markup such as
+`text-cyan-300` or `shadow-glow-teal` renders on-brand without a rename.
+The steps that carry ink-on-accent text (`brand-400` 6.9:1 and `steel-400`
+8.0:1 against `slate-950`) are annotated in the config — keep them light if you
+ever retune the ramps.
 
 > Node **18.12+** is required (Next.js 13.5 line). The CI workflow uses Node 20.
 

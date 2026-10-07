@@ -18,9 +18,6 @@ import { dimensionsWithCounts } from '@/data/reports';
 const socials = [
   { key: 'facebook', href: siteConfig.socials.facebook, label: 'Facebook' },
   { key: 'tiktok', href: siteConfig.socials.tiktok, label: 'TikTok' },
-  { key: 'instagram', href: siteConfig.socials.instagram, label: 'Instagram' },
-  { key: 'linkedin', href: siteConfig.socials.linkedin, label: 'LinkedIn' },
-  { key: 'youtube', href: siteConfig.socials.youtube, label: 'YouTube' },
 ];
 
 export default function Footer() {

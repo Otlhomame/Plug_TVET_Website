@@ -31,7 +31,10 @@ export const siteConfig = {
   description:
     'THE PLUG TVET is Botswana’s TVET information hub and boutique consultancy - decoding admissions, funding, skills demand and industrial opportunity for students, graduates, parents, educators, policymakers and employers.',
   mission: 'Empowering Skills. Building Futures.',
-  founded: '2023',
+  // Human-readable founding date (rendered on /about). October 2025.
+  founded: 'October 2025',
+  // Machine-readable founding date for JSON-LD `foundingDate` (ISO 8601).
+  foundedISO: '2025-10',
   locale: 'en_BW',
   url: siteUrl,
   // The Substack publication. Long-form readers are routed here from every page.
@@ -55,11 +58,8 @@ export const siteConfig = {
     hours: 'Mon - Fri · 08:00 - 17:00 (CAT)',
   },
   socials: {
-    facebook: 'https://www.facebook.com/theplugtvet',
-    tiktok: 'https://www.tiktok.com/@theplugtvet',
-    instagram: 'https://www.instagram.com/theplugtvet',
-    linkedin: 'https://www.linkedin.com/company/theplugtvet',
-    youtube: 'https://www.youtube.com/@theplugtvet',
+    facebook: 'https://web.facebook.com/profile.php?id=61582060226549',
+    tiktok: 'https://www.tiktok.com/@the.plug.tvet',
   },
 };
 

@@ -42,32 +42,7 @@
 
   <!-- TVET News posts -->
   <url>
-    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/botswana-tvet-enrolment-window-what-changes-this-cycle/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/levy-funded-training-claims-employers-leave-money-behind/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/scarce-skills-where-botswana-demand-outruns-training-capacity/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/graduate-attachments-that-convert-into-jobs/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/green-skills-energy-transition-botswana-trades/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/choosing-a-tvet-course-without-regret/</loc>
+    <loc>https://theplugtvet.github.io/Plug_TVET_Website/news/temco-p2-billion-hospital-tvet-skills/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

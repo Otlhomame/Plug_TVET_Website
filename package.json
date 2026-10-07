@@ -16,6 +16,7 @@
     "lint": "next lint",
     "preview": "npx --yes serve@14 out -l 4000",
     "reports:scaffold": "node scripts/generate-placeholder-reports.mjs",
+    "reports:temco": "node scripts/generate-temco-report.mjs",
     "verify:export": "node scripts/verify-export.mjs",
     "verify:content": "node scripts/spot-check.mjs",
     "verify": "npm run build && npm run verify:export && npm run verify:content"

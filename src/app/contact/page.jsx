@@ -184,9 +184,6 @@ export default function ContactPage() {
                     {[
                       { key: 'facebook', href: siteConfig.socials.facebook, label: 'Facebook' },
                       { key: 'tiktok', href: siteConfig.socials.tiktok, label: 'TikTok' },
-                      { key: 'instagram', href: siteConfig.socials.instagram, label: 'Instagram' },
-                      { key: 'linkedin', href: siteConfig.socials.linkedin, label: 'LinkedIn' },
-                      { key: 'youtube', href: siteConfig.socials.youtube, label: 'YouTube' },
                     ].map((social) => (
                       <a
                         key={social.key}
@@ -283,7 +280,7 @@ export default function ContactPage() {
             <p className="text-sm text-slate-300">
               Prefer to see the work first? The insight repository has{' '}
               <span className="font-semibold text-offwhite">
-                {reportMetrics.total} free reports
+                {reportMetrics.total} free {reportMetrics.total === 1 ? 'report' : 'reports'}
               </span>{' '}
               across five dimensions.
             </p>

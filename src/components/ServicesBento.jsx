@@ -3,10 +3,12 @@
 /**
  * <ServicesBento /> - 4-column interactive bento grid
  * ---------------------------------------------------------------------------
- * Each of the four core offerings is a glass tile. Tiles are *interactive*:
- * clicking a tile expands it to reveal the delivery checklist and the outcome
- * statement, using Framer Motion height animation. One tile is open by default
- * (better for scannability and for users on touch devices).
+ * Each of the four core offerings is a glass tile that carries the same depth
+ * of information: one-line promise, summary, delivery checklist, outcome and
+ * audience. All four tiles are expanded by default, so the section reads as one
+ * connected system immediately - and the full content is present in the static
+ * export even before (or without) hydration. Tiles stay *interactive*: clicking
+ * a tile collapses it again, using Framer Motion height animation.
  */
 
 import { useState } from 'react';
@@ -33,8 +35,17 @@ const accents = {
 };
 
 export default function ServicesBento() {
-  // The first service starts open so the interaction is discoverable.
-  const [openId, setOpenId] = useState(services[0]?.id ?? null);
+  // Every offering starts expanded: all four panels then show an identical
+  // level of detail (summary, checklist, outcome) with no interaction needed,
+  // and the content is never withheld from the rendered HTML.
+  const [openIds, setOpenIds] = useState(() => services.map((service) => service.id));
+
+  /** Toggle a single panel; the others keep their current state. */
+  const togglePanel = (id) => {
+    setOpenIds((current) =>
+      current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
+    );
+  };
 
   return (
     <motion.div
@@ -46,7 +57,7 @@ export default function ServicesBento() {
     >
       {services.map((service) => {
         const accent = accents[service.accent] || accents.cyan;
-        const isOpen = openId === service.id;
+        const isOpen = openIds.includes(service.id);
 
         return (
           <motion.article
@@ -71,7 +82,7 @@ export default function ServicesBento() {
             {/* ---- Trigger ------------------------------------------------- */}
             <button
               type="button"
-              onClick={() => setOpenId(isOpen ? null : service.id)}
+              onClick={() => togglePanel(service.id)}
               aria-expanded={isOpen}
               aria-controls={`service-panel-${service.id}`}
               className="flex flex-1 flex-col items-start text-left"

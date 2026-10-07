@@ -17,7 +17,7 @@ sites such as `https://user.github.io/Plug_TVET_Website/`.
 1. **Add the PDF here**, naming it to match the report `slug`, e.g.
 
    ```
-   public/reports/tvet-funding-flows-botswana-2026.pdf
+   public/reports/digital-trades-skills-gap-review.pdf
    ```
 
 2. **Register it in the data layer** - add one object to the `reports` array in
@@ -25,19 +25,19 @@ sites such as `https://user.github.io/Plug_TVET_Website/`.
 
    ```js
    {
-     id: 'r-policy-06',
-     slug: 'tvet-funding-flows-botswana-2026',   // must match the file name
-     dimensionId: 'policy',                      // one of the five dimensions
-     title: 'TVET Funding Flows in Botswana',
-     date: '2026-06-18',
-     displayDate: 'June 2026',
-     pages: 28,
-     size: '1.9 MB',
+     id: 'r-skills-02',
+     slug: 'digital-trades-skills-gap-review',   // must match the file name
+     dimensionId: 'skills',                      // one of the five dimensions
+     title: 'Digital Trades and the Skills Gap',
+     date: '2026-09-01',
+     displayDate: 'September 2026',
+     pages: 24,
+     size: '1.7 MB',
      featured: true,                             // optional: hero shelf
      summary: '...',
      highlights: ['...', '...', '...'],
-     tags: ['Funding', 'Policy'],
-     audience: 'Policymakers · Institutions · Investors',
+     tags: ['Digital', 'Skills'],
+     audience: 'Employers · Educators · Students',
    }
    ```
 
@@ -73,6 +73,6 @@ report list directly from `src/data/reports.js`.
 | Rule            | Example                                  |
 | --------------- | ---------------------------------------- |
 | Lowercase       | `scarce-critical-skills-inventory.pdf`   |
-| Hyphenated      | `approved-capital-projects-skills-map.pdf` |
+| Hyphenated      | `digital-trades-skills-gap-review.pdf`   |
 | No year suffix  | unless the report is annual              |
 | Keep under 4 MB | compress scans before committing         |

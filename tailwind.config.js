@@ -1,12 +1,63 @@
 /**
  * THE PLUG TVET - Tailwind CSS design system
  * ---------------------------------------------------------------------------
- * Palette is derived from watchfire.io + Botswana national identity elements:
+ * Palette is sampled straight from the brand mark (public/logo.svg + the
+ * inline <Logo /> badge) so the site chrome and the artwork speak ONE visual
+ * language - see the `brand` / `steel` ramps below.
  *   slate      -> Deep Slate Blue.  Primary surfaces + background contrast.
- *   cyan/teal   -> High-Vis Cyan/Teal. Accents, CTAs, active states, data.
+ *   brand      -> Plug Blue.  The blue half of the badge (#1CC0FF - #1C7BEE
+ *                 - #123FAE). CTAs, active states, data, focus rings.
+ *   steel      -> Plug Chrome.  The silver half + chrome frame of the badge.
+ *                 Secondary accent / data viz.
  *   offwhite    -> Crisp Off-White.  Primary typography on dark surfaces.
+ *
+ * LEGACY ALIASES: the site previously ran a cyan/teal accent pair, so `cyan`
+ * and `teal` are still valid keys - they are bound by reference to `brand` /
+ * `steel` (an alias, never a second palette). Existing `*-cyan-*` / `*-teal-*`
+ * classes therefore render on-brand without touching a single page.
+ *
  * Fluid dark mode is the DEFAULT (see `darkMode: 'class'` + <html class="dark">).
  */
+
+/**
+ * Plug Blue - the primary accent ramp, sampled from the blue half of the brand
+ * mark (public/logo.svg / <Logo />). 500 is the exact mid stop of the badge
+ * gradient; 400 is kept light enough (6.9:1 on slate-950) for ink-on-accent
+ * uses such as `.btn-primary`, the skip link and the report CTA buttons.
+ */
+const brand = {
+  50: '#EFF7FF',
+  100: '#DAEBFF',
+  200: '#B6D8FF',
+  300: '#82BDFF',
+  400: '#3B9BFF',
+  500: '#1C7BEE', // exact mid stop of the badge's blue gradient
+  600: '#1560C8',
+  700: '#114A9C',
+  800: '#0E3B7C',
+  900: '#0C2F63',
+};
+
+/**
+ * Plug Chrome - the secondary accent ramp, sampled from the silver half of the
+ * badge plus its chrome frame. Cool, desaturated and lighter than Plug Blue so
+ * the two accents stay distinguishable as a primary/secondary pair. 400 is
+ * 8.0:1 on slate-950, so it also carries ink-on-accent text safely.
+ */
+const steel = {
+  200: '#CFE1F5',
+  300: '#A9C6E8',
+  400: '#7FA6D4',
+  500: '#5C82B0',
+  600: '#46648E',
+  700: '#35506F',
+};
+
+/** Plug Blue focus/hover glow - shared by `glow-brand` and legacy `glow-cyan`. */
+const glowBrand = '0 0 0 1px rgba(59,155,255,0.40), 0 18px 50px -18px rgba(28,123,238,0.55)';
+
+/** Plug Chrome glow - shared by `glow-steel` and legacy `glow-teal`. */
+const glowSteel = '0 0 0 1px rgba(127,166,212,0.40), 0 18px 50px -18px rgba(92,130,176,0.50)';
 
 /** @type {import('tailwindcss').Config} */
 const config = {
@@ -34,27 +85,13 @@ const config = {
           200: '#A3B4CC',
           100: '#D3DDEB',
         },
-        // ---- High-Vis Cyan: primary action colour -------------------------
-        cyan: {
-          50: '#ECFEFF',
-          100: '#CFFAFE',
-          200: '#A5F3FC',
-          300: '#67E8F9',
-          400: '#22D3EE',
-          500: '#06B6D4',
-          600: '#0891B2',
-          700: '#0E7490',
-          800: '#155E75',
-          900: '#164E63',
-        },
-        // ---- Teal: secondary accent / data viz ---------------------------
-        teal: {
-          300: '#5EEAD4',
-          400: '#2DD4BF',
-          500: '#14B8A6',
-          600: '#0D9488',
-          700: '#0F766E',
-        },
+        // ---- Plug Blue / Plug Chrome: the single brand accent pair --------
+        brand,
+        steel,
+        // ---- Legacy aliases - bound to the ramps above by reference, so the
+        //      old `cyan`/`teal` keys can never drift into a second palette.
+        cyan: brand,
+        teal: steel,
         // ---- Crisp Off-White: typography ---------------------------------
         offwhite: '#F5F8FC',
         ink: '#050912',
@@ -82,17 +119,24 @@ const config = {
       },
       boxShadow: {
         glass: '0 1px 0 0 rgba(255,255,255,0.06) inset, 0 24px 60px -30px rgba(0,0,0,0.85)',
-        'glow-cyan': '0 0 0 1px rgba(34,211,238,0.35), 0 18px 50px -18px rgba(34,211,238,0.45)',
-        'glow-teal': '0 0 0 1px rgba(45,212,191,0.35), 0 18px 50px -18px rgba(20,184,166,0.45)',
+        // `*-brand` / `*-steel` are the canonical names; the old `*-cyan` /
+        // `*-teal` keys remain valid aliases pointing at the same values.
+        'glow-brand': glowBrand,
+        'glow-cyan': glowBrand,
+        'glow-steel': glowSteel,
+        'glow-teal': glowSteel,
         lift: '0 32px 80px -40px rgba(4,10,25,0.95)',
       },
       backgroundImage: {
         'grid-dark':
           'linear-gradient(to right, rgba(148,178,215,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,178,215,0.07) 1px, transparent 1px)',
         'radial-glow':
-          'radial-gradient(60% 60% at 50% 0%, rgba(34,211,238,0.20) 0%, rgba(20,184,166,0.10) 40%, transparent 75%)',
+          'radial-gradient(60% 60% at 50% 0%, rgba(59,155,255,0.20) 0%, rgba(28,123,238,0.10) 40%, transparent 75%)',
+        // Plug Blue sweep. Every stop is deliberately light-to-mid: this one
+        // token paints dark-ink CTAs (.btn-primary -> text-slate-950) as well
+        // as clipped headline text (.text-gradient), so it must never go navy.
         'brand-sheen':
-          'linear-gradient(120deg, #22D3EE 0%, #2DD4BF 45%, #A5F3FC 100%)',
+          'linear-gradient(120deg, #1CC0FF 0%, #2E86F5 45%, #A9D6FF 100%)',
       },
       backgroundSize: {
         grid: '64px 64px',

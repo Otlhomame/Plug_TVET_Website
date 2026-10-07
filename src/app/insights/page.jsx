@@ -7,7 +7,6 @@
  *   - Featured shelf (flagged `featured` in src/data/reports.js)
  *   - <InsightsRepository /> : the five industrial dimensions + the
  *     layout-filtered, searchable grid of downloadable PDFs
- *   - A short publishing guide (how to add a report through Git)
  *   - Substack conversion panel
  *
  * PDFs live in `/public/reports/<slug>.pdf` and are linked with the
@@ -33,8 +32,14 @@ import {
   featuredReports,
   publishedReports,
   reportMetrics,
-  reportDimensions,
 } from '@/data/reports';
+
+/**
+ * Plural-safe report copy. The repository is content-driven, so this reads
+ * correctly whether one brief is published or twenty.
+ */
+const reportNoun = reportMetrics.total === 1 ? 'report' : 'reports';
+const reportCount = `${reportMetrics.total} ${reportNoun}`;
 
 export const metadata = {
   title: 'Industry Insights & Reports',
@@ -43,14 +48,14 @@ export const metadata = {
   alternates: { canonical: '/insights' },
   openGraph: {
     title: 'Industry Insights & Reports | THE PLUG TVET',
-    description: `A free, filterable repository of Botswana TVET research - ${reportMetrics.total} downloadable reports across five industrial dimensions.`,
+    description: `A free, filterable repository of Botswana TVET research - ${reportCount} across five industrial dimensions.`,
     url: '/insights',
   },
 };
 
 /** Publication counts shown as a metric strip under the page header. */
 const metrics = [
-  { label: 'Downloadable reports', value: `${reportMetrics.total}`, icon: 'fileText' },
+  { label: `Downloadable ${reportNoun}`, value: `${reportMetrics.total}`, icon: 'fileText' },
   { label: 'Pages of analysis', value: `${reportMetrics.pages}+`, icon: 'book' },
   { label: 'Industrial dimensions', value: `${reportMetrics.dimensions}`, icon: 'layers' },
   { label: 'Most recent issue', value: reportMetrics.latest, icon: 'calendar' },
@@ -107,26 +112,32 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      {/* ---- Featured shelf ---------------------------------------------- */}
-      <section className="section-y" aria-labelledby="featured-reports-heading">
-        <div className="container-plug">
-          <SectionHeading
-            id="featured-reports-heading"
-            eyebrow="Start here"
-            title="Three reports that answer"
-            accent="the biggest questions"
-            description="If you are new to Botswana’s skills economy, begin with these: where the money flows, which trades the pipeline needs, and how to measure the return."
-          />
+      {/* ---- Featured shelf ----------------------------------------------
+          Only worth rendering once the library is big enough to need a
+          shortlist: with a single report the repository grid below already
+          shows it, and the shelf would repeat the same card twice on one page.
+      --------------------------------------------------------------------- */}
+      {featuredReports.length > 1 && (
+        <section className="section-y" aria-labelledby="featured-reports-heading">
+          <div className="container-plug">
+            <SectionHeading
+              id="featured-reports-heading"
+              eyebrow="Start here"
+              title="Reports that answer"
+              accent="the biggest questions"
+              description="If you are new to Botswana’s skills economy, begin with these: where the money flows, which trades the pipeline needs, and how to measure the return."
+            />
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {featuredReports.map((report, index) => (
-              <Reveal key={report.id} delay={index * 0.08} variant="scaleIn" className="h-full">
-                <ReportCard report={report} dimension={dimensionById[report.dimensionId]} featured />
-              </Reveal>
-            ))}
+            <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {featuredReports.map((report, index) => (
+                <Reveal key={report.id} delay={index * 0.08} variant="scaleIn" className="h-full">
+                  <ReportCard report={report} dimension={dimensionById[report.dimensionId]} featured />
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ---- Repository (dimensions + filterable grid) -------------------- */}
       <section
@@ -144,76 +155,6 @@ export default function InsightsPage() {
 
           <div className="mt-12">
             <InsightsRepository reports={publishedReports} dimensions={dimensionsWithCounts} />
-          </div>
-        </div>
-      </section>
-
-      {/* ---- Publishing guide -------------------------------------------- */}
-      <section className="section-y" aria-labelledby="publishing-heading">
-        <div className="container-plug grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <SectionHeading
-              id="publishing-heading"
-              eyebrow="For our team & partners"
-              title="Publishing a report takes"
-              accent="three steps"
-              description="The repository is content-driven. Anyone with repository access can publish a new brief without touching a layout file."
-            />
-          </div>
-
-          <div className="lg:col-span-7">
-            <ol className="space-y-4">
-              {[
-                {
-                  step: '01',
-                  title: 'Drop the PDF into /public/reports/',
-                  detail:
-                    'Name the file to match the report slug, e.g. tvet-funding-flows-botswana-2026.pdf. Anything in /public is served from the site root.',
-                },
-                {
-                  step: '02',
-                  title: 'Add an entry to src/data/reports.js',
-                  detail:
-                    'One object per report: slug, dimensionId, title, summary, highlights, tags and audience. The grid, filters, counts and metadata all update from that single entry.',
-                },
-                {
-                  step: '03',
-                  title: 'Commit and push to main',
-                  detail:
-                    'GitHub Actions runs next build with output: export, then publishes the refreshed static site to GitHub Pages automatically.',
-                },
-              ].map((item, index) => (
-                <Reveal key={item.step} delay={index * 0.07} variant="slideInLeft" as="li">
-                  <div className="glass glass-hover flex gap-5 p-6">
-                    <span className="text-gradient text-2xl font-semibold tracking-tightest">
-                      {item.step}
-                    </span>
-                    <div>
-                      <h3 className="text-base font-semibold tracking-tight text-offwhite">
-                        {item.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-300">{item.detail}</p>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </ol>
-
-            <Reveal delay={0.1} className="mt-6">
-              <div className="glass overflow-x-auto p-5">
-                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                  Folder contract
-                </p>
-                <pre className="font-mono text-[12px] leading-relaxed text-cyan-200">
-                  {`public/
-├── reports/
-│   ├── ${reportDimensions[0].slug}.pdf
-│   ├── ${publishedReports[1]?.slug || 'report-slug'}.pdf
-│   └── ...  (${publishedReports.length} reports published)
-└── sitemap.xml, robots.txt`}
-                </pre>
-              </div>
-            </Reveal>
           </div>
         </div>
       </section>

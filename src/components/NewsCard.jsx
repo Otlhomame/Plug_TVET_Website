@@ -14,7 +14,7 @@ import Link from 'next/link';
 
 import Icon from '@/components/Icon';
 import BrandIcon from '@/components/BrandIcon';
-import { siteConfig } from '@/data/site';
+import { asset, siteConfig } from '@/data/site';
 import { COVER_GRADIENTS } from '@/data/news';
 
 export default function NewsCard({ post, featured = false }) {
@@ -27,7 +27,7 @@ export default function NewsCard({ post, featured = false }) {
         featured ? 'lg:flex-row' : '',
       ].join(' ')}
     >
-      {/* ---- Cover (pure CSS gradient, no image payload) ---------------- */}
+      {/* ---- Cover (photo when supplied, else pure CSS gradient) -------- */}
       <div
         className={[
           'relative shrink-0 overflow-hidden bg-gradient-to-br',
@@ -35,12 +35,29 @@ export default function NewsCard({ post, featured = false }) {
           featured ? 'h-44 lg:h-auto lg:w-2/5' : 'h-40',
         ].join(' ')}
       >
-        {/* Grid texture + node motif */}
-        <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-40" />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-12 -right-8 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"
-        />
+        {post.coverImage ? (
+          <>
+            <img
+              src={asset(post.coverImage)}
+              alt={post.coverAlt || post.title}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/35 to-slate-950/5"
+            />
+          </>
+        ) : (
+          <>
+            {/* Grid texture + node motif */}
+            <div aria-hidden="true" className="grid-bg absolute inset-0 opacity-40" />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-12 -right-8 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl"
+            />
+          </>
+        )}
 
         <div className="absolute inset-0 flex flex-col justify-between p-5">
           <div className="flex items-center justify-between gap-3">

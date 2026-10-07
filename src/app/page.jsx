@@ -188,25 +188,9 @@ export default function HomePage() {
               </Reveal>
             ))}
           </div>
-
-          <Reveal delay={0.1} className="mt-10">
-            <div className="glass flex flex-col items-start justify-between gap-5 p-6 sm:flex-row sm:items-center">
-              <p className="text-sm text-slate-300">
-                <span className="font-semibold text-offwhite">Publishing a report?</span> Drop the
-                PDF into{' '}
-                <code className="rounded bg-slate-950/70 px-2 py-0.5 font-mono text-[11px] text-cyan-200">
-                  /public/reports/
-                </code>{' '}
-                and it deploys automatically through GitHub Actions.
-              </p>
-              <Link href="/insights#insight-grid" className="btn-ghost shrink-0 !py-2.5">
-                Browse all dimensions
-                <Icon name="arrowDown" className="h-4 w-4" />
-              </Link>
-            </div>
-          </Reveal>
         </div>
       </section>
+
       {/* ---- 7. Latest TVET News ----------------------------------------- */}
       <section className="section-y" aria-labelledby="latest-news-heading">
         <div className="container-plug">

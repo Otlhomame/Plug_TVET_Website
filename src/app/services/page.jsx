@@ -101,7 +101,7 @@ export default function ServicesPage() {
             eyebrow="What we deliver"
             title="Four offerings,"
             accent="one connected system"
-            description="Tap any tile to open the delivery checklist and the outcome you can expect. Every offering is available as free public guidance, and as a structured engagement."
+            description="All four offerings are laid out below in full: what is delivered, the checklist behind it, and the outcome you can expect. Tap any tile to collapse it while you compare - every offering is available as free public guidance, and as a structured engagement."
           />
 
           <div className="mt-12">

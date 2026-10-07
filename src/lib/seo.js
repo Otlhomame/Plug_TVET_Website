@@ -20,7 +20,9 @@ export function organisationSchema() {
     slogan: siteConfig.mission,
     email: siteConfig.contact.email,
     telephone: siteConfig.contact.phoneDisplay,
-    foundingDate: siteConfig.founded,
+    // ISO 8601 for consumers of the schema (the /about page renders the
+    // human-readable `siteConfig.founded` value instead).
+    foundingDate: siteConfig.foundedISO,
     areaServed: {
       '@type': 'Country',
       name: 'Botswana',
@@ -34,9 +36,6 @@ export function organisationSchema() {
     sameAs: [
       siteConfig.socials.facebook,
       siteConfig.socials.tiktok,
-      siteConfig.socials.instagram,
-      siteConfig.socials.linkedin,
-      siteConfig.socials.youtube,
       siteConfig.substack.url,
     ],
     knowsAbout: [
