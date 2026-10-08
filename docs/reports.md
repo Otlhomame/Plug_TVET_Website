@@ -1,6 +1,13 @@
-# `/public/reports/` - the downloadable report library
+# Report library - maintainer guide (`docs/reports.md`)
 
-Every PDF in this folder is published **as-is** to the live site at:
+> **Why this file lives in `docs/`, not in `public/reports/`:**
+> Next.js copies everything inside `public/` verbatim into the static export
+> (`out/`), which is published to the live site on GitHub Pages. Keeping this
+> internal publishing workflow here means it is **never** served at
+> `https://www.plugtvet.com/reports/README.md`. Only the PDFs belong in
+> `public/reports/`.
+
+The PDFs in `public/reports/` are published **as-is** to the live site at:
 
 ```
 https://<your-domain>/reports/<file-name>.pdf

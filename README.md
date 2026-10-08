@@ -63,11 +63,13 @@ npm run preview        # serves ./out on :4000 to verify the real export
 │   ├── generate-placeholder-reports.mjs   # scaffolds every declared report PDF
 │   ├── verify-export.mjs                  # inspects ./out after a build
 │   └── spot-check.mjs                     # asserts production copy in ./out
-├── public/
+├── docs/                             # maintainer docs - NOT served publicly
+│   └── reports.md                    # how to publish a report PDF (was public/reports/README.md)
+├── public/                           # copied verbatim into the live export - keep PDFs/art only
 │   ├── .nojekyll                     # tells GitHub Pages to skip Jekyll
 │   ├── favicon.svg / logo.svg        # brand marks
 │   ├── robots.txt / sitemap.xml      # SEO (hand-maintained static files)
-│   └── reports/                      # ← DROP NEW PDF REPORTS HERE
+│   └── reports/                      # ← DROP NEW PDF REPORTS HERE (PDFs only, no .md)
 └── src/
     ├── app/                          # App Router pages
     │   ├── layout.jsx                # shell, fonts, metadata, JSON-LD
@@ -107,7 +109,9 @@ Everything editorial is data-driven:
 3. Commit and push — the grid, filters, counters, search index and sitemap all
    update from that single entry.
 
-See `public/reports/README.md` for the full field reference.
+See `docs/reports.md` for the full field reference. (This maintainer doc lives in
+`docs/`, OUTSIDE `public/`, because Next.js copies everything in `public/` verbatim
+into the live static export.)
 
 ### Publishing a news post
 
