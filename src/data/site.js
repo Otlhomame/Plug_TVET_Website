@@ -17,10 +17,23 @@ export function asset(path = '') {
   return `${base}${clean}`;
 }
 
-/** Absolute canonical origin used for SEO metadata, sitemap and JSON-LD. */
+/**
+ * Absolute canonical origin used for SEO metadata, sitemap and JSON-LD.
+ *
+ * Priority:
+ *   1. NEXT_PUBLIC_SITE_URL - injected by the CI workflow, points at the
+ *      production custom domain (https://www.plugtvet.com).
+ *   2. The live GitHub Pages project-site URL for THIS repository
+ *      (otlhomame.github.io/Plug_TVET_Website) as a safe dev/preview fallback.
+ *
+ * NOTE: the fallback must reference the account that actually owns this repo
+ * (`otlhomame`). A previous value pointed at `theplugtvet.github.io`, which is
+ * a different account, so any build that omitted NEXT_PUBLIC_SITE_URL
+ * published canonical/og:url/JSON-LD tags advertising the wrong host.
+ */
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  `https://theplugtvet.github.io/${process.env.NEXT_PUBLIC_REPO_NAME || 'Plug_TVET_Website'}`;
+  `https://otlhomame.github.io/${process.env.NEXT_PUBLIC_REPO_NAME || 'Plug_TVET_Website'}`;
 
 export const siteConfig = {
   name: 'THE PLUG TVET',

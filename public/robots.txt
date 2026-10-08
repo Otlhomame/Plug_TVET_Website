@@ -21,4 +21,4 @@ Allow: /
 User-agent: *
 Allow: /reports/
 
-Sitemap: https://theplugtvet.github.io/Plug_TVET_Website/sitemap.xml
+Sitemap: https://www.plugtvet.com/sitemap.xml

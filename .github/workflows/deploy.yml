@@ -13,6 +13,25 @@
 #
 # ONE-TIME SETUP: Repo -> Settings -> Pages -> Build and deployment ->
 # Source = "GitHub Actions". That is all that is required.
+#
+# !! DO NOT SELECT "Deploy from a branch" !!
+# ---------------------------------------------------------------------------
+# If Pages Source is ever set to "Deploy from a branch", GitHub stops running
+# this workflow and instead creates a DYNAMIC workflow called
+# `pages-build-deployment` (path: dynamic/pages/pages-build-deployment) that
+# runs Jekyll over the repo root.
+#
+# Because the Next.js source has no root `index.html` (it is only produced by
+# `next build` into /out), that Jekyll run still reports SUCCESS but publishes
+# a site with NO index page. Visitors then see GitHub's
+# "404 - There isn't a GitHub Pages site here" page on the custom domain, and
+# `GET /repos/{owner}/{repo}/pages` starts returning 404.
+#
+# Symptom checklist for that failure mode:
+#   - Actions shows a run named "pages build and deployment" (event: dynamic)
+#   - The workflow list shows `dynamic/pages/pages-build-deployment`
+#   - https://<user>.github.io/<repo>/ returns 404
+# Fix: Settings -> Pages -> Source = "GitHub Actions", then re-run this workflow.
 # ===========================================================================
 
 name: Deploy THE PLUG TVET to GitHub Pages
@@ -78,10 +97,30 @@ jobs:
           NODE_ENV: production
         run: npm run build
 
+      - name: Verify static export
+        run: node scripts/verify-export.mjs
+
       # GitHub Pages runs Jekyll by default, which ignores folders that start
       # with an underscore (like `/_next`). The .nojekyll marker disables it.
+      # It MUST be a truly empty file - Jekyll keys off its presence, and a
+      # placeholder containing text is not a valid marker.
       - name: Add .nojekyll marker
-        run: touch out/.nojekyll
+        run: |
+          rm -f out/.nojekyll
+          : > out/.nojekyll
+          test ! -s out/.nojekyll
+
+      # Fail loudly instead of publishing a site with no landing page. A
+      # missing out/index.html is exactly what produced the
+      # "There isn't a GitHub Pages site here" 404.
+      - name: Assert deployable site
+        run: |
+          set -euo pipefail
+          test -f out/index.html
+          test -f out/404.html
+          test -f out/CNAME
+          echo "index.html: $(wc -c < out/index.html) bytes"
+          echo "CNAME: $(cat out/CNAME)"
 
       - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v3
