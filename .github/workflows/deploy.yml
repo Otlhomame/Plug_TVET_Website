@@ -57,14 +57,24 @@ jobs:
         uses: actions/configure-pages@v5
 
       # ----------------------------------------------------------------
-      # Project sites are served from /<repo>, user sites & custom domains
-      # from the root. `actions/configure-pages` exposes the resolved
-      # `base_path` output which we feed into Next.js.
+      # IMPORTANT: this site is served from a CUSTOM DOMAIN (plugtvet.com),
+      # so it lives at the ROOT of the domain, not at /<repo>.
+      #
+      # `actions/configure-pages` reports `base_path = /Plug_TVET_Website`
+      # for a project site. Using that value here would prefix every asset
+      # with /Plug_TVET_Website and 404 on the custom domain, so we pin the
+      # base path to empty while a custom domain is configured.
+      #
+      # If you ever go back to serving from https://<user>.github.io/<repo>/,
+      # replace the empty NEXT_PUBLIC_BASE_PATH below with
+      #   NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      # to restore the project-site prefix.
       # ----------------------------------------------------------------
       - name: Build Next.js static export
         env:
-          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.origin }}
+          # Empty on purpose: custom domain => site is served from the root.
+          NEXT_PUBLIC_BASE_PATH: ''
+          NEXT_PUBLIC_SITE_URL: https://www.plugtvet.com
           NODE_ENV: production
         run: npm run build
 
